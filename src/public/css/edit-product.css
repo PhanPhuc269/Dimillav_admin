@@ -1,0 +1,107 @@
+.image-list {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    max-width: 400px;
+    margin: 20px auto;
+}
+
+.image-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+}
+/* 
+.image-item:last-child {
+    border-bottom: none;
+} */
+
+.image-name {
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+}
+
+.remove-image {
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+    /* CSS cho modal */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 65px;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.8);
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-content {
+        width: auto; /* Để ảnh tự động điều chỉnh kích thước theo nội dung */
+        height: auto; /* Đảm bảo ảnh giữ nguyên tỷ lệ */
+        max-width: 76%; /* Giới hạn chiều rộng tối đa của ảnh */
+        max-height: 76%; /* Giới hạn chiều cao tối đa của ảnh */
+        margin: auto;
+        display: block;
+        border: 4px solid #fff;
+        border-radius: 10px;
+        animation: zoomIn 0.3s ease-in-out;
+        object-fit: contain; /* Đảm bảo ảnh không bị cắt và giữ tỷ lệ */
+    }
+
+    .close {
+        position: absolute;
+        top: 15px;
+        right: 35px;
+        color: #fff;
+        font-size: 30px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    @keyframes zoomIn {
+        from {
+            transform: scale(0.8);
+            opacity: 0;
+        }
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    .remove-image {
+        background-color: transparent;
+        border: none;
+        color: red;
+        font-size: 16px;
+        margin-left: 10px;
+        cursor: pointer;
+        width: auto !important;
+
+    }
+
+    .image-item {
+        margin-bottom: 10px;
+    }
+
+    .image-name {
+        cursor: pointer;
+        color: #1abc9c;
+        text-decoration: underline;
+    }
+    .modal-backdrop{
+        z-index: 500;
+
+    }

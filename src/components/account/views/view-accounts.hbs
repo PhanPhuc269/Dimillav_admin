@@ -1,0 +1,105 @@
+{{!-- filepath: /d:/phuc/Web/Project/Dimillav-admin/src/components/account/views/view-accounts.hbs --}}
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-secondary text-center rounded p-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h6 class="mb-0">Account management</h6>
+            <div class="d-flex">
+                <select class="form-control-sm form-select w-50 select-role ms-5" aria-label="Default select example" name="action" required>
+                    <option value="">Chức vụ</option>
+					<option value="admin">Admin</option>
+					<option value="customer">Khách hàng</option>
+				</select>
+                <input type="text" id="search-query" class="form-control bg-dark border-0 me-2" placeholder="Search by name or email">
+                <button id="search-button" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+        <div class="table-responsive">
+			<div class="d-flex align-items-center mb-2">
+				<select class="form-control-sm form-select w-25 select-all-options me-2" aria-label="Default select example" name="action" required>
+					<option value="">------Hành động------</option>
+					<option value="block">Khóa</option>
+					<option value="unblock">Mở khóa</option>
+				</select>
+				<button class="btn btn-primary  btm-sm disabled check-all-submit-btn">Thực hiện</button>
+                
+			</div>
+			<table class="table text-start align-middle table-bordered table-hover mb-0">
+                <thead>
+                    <tr class="text-black">
+                        <th scope="col" class="text-start"><input class="form-check-input" type="checkbox" id="checkbox-all"></th>
+                        <th scope="col">{{sortable 'name' _sort}} Tên người dùng</th>
+                        <th scope="col">{{sortable 'email' _sort}} Email</th>
+                        <th scope="col">Số điện thoại</th>
+                        <th scope="col">Chức vụ</th>
+                        <th scope="col">{{sortable 'registrationTime' _sort}} Registration time</th>
+                        <th scope="col">Trạng thái</th>
+                        <th scope="col">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody id="account-table-body">
+                    {{#each accounts}}
+                    <tr>
+                        <td><input class="form-check-input" type="checkbox" name="accounts[]" data-token="{{this.token}}"></td>
+                        <td>{{this.name}}</td>
+                        <td>{{this.email}}</td>
+                        <td>{{this.phone}}</td>
+                        <td>{{this.role}}</td>
+                        <td>{{formatDate this.createdAt}}</td>
+                        <td>{{this.status}}</td>
+                        <td>
+                            <a class="btn btn-sm btn-info text-white" href="/account/details/{{this.username}}">Xem</a>
+							{{#if (eq this.status 'active')}}
+                            	<a href="#" class="btn btn-sm btn-danger ban-button" data-bs-toggle="modal" data-token="{{this.token}}" data-name="{{this.username}}" data-bs-target="#ban-account-modal">Khóa</a>
+							{{else}}
+								<a href="#" class="btn btn-sm btn-success unban-button" data-bs-toggle="modal" data-token="{{this.token}}"  data-name="{{this.username}}" data-bs-target="#unban-account-modal">Mở khóa</a>
+							{{/if}}
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+        <div class="d-flex justify-content-between mt-3">
+            <button id="prev-page" class="btn btn-secondary">Previous</button>
+            <span class="pagination-info" id="page-info" data-total-pages="{{totalPages}}">Page {{page}} of {{totalPages}}</span>
+            <button id="next-page" class="btn btn-secondary">Next</button>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="ban-account-modal" tabindex="-1" aria-labelledby="ban-account-modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 ">Khóa tài khoản?</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Bạn có chắc chắn muốn khóa tài khoản này không?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" id="btn-ban-account" class="btn btn-danger">Khóa tài khoản</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="unban-account-modal" tabindex="-1" aria-labelledby="unban-account-modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Mở khóa tài khoản?</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Bạn có chắc chắn muốn mở khóa tài khoản này không?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" id="btn-unban-account" class="btn btn-primary">Mở khóa tài khoản</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/view-accounts.js"></script>

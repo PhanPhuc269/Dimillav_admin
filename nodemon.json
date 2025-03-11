@@ -1,0 +1,4 @@
+{
+    "ext": "js json",
+    "exec": "node -r module-alias/register src/index.js"
+}

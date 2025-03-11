@@ -1,0 +1,116 @@
+ <!-- Start Banner Area -->
+ <body>
+    
+
+<!-- Start Banner Area -->
+<section class="banner-area organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <h1>Payment QR Code</h1>
+                <nav class="d-flex align-items-center">
+                    <a href="/home">Home<span class="lnr lnr-arrow-right"></span></a>
+                   
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Banner Area -->
+
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-lg-8 text-center">
+            <h2>Scan this QR Code to Make Payment</h2>
+            <div class="qr-code mt-4">
+                <img src="{{ qrCode }}" alt="QR Code" class="img-fluid" id="qr-code-img" style="max-width: 300px;">
+            </div>
+            <p class="mt-4">Amount: <strong>{{ amount }} VND</strong></p>
+            <p>Description: <strong>{{description}}  </strong></p>
+
+            <!-- Nút thanh toán -->
+            <button id="btn-pay" class="btn btn-success mt-4" data-transaction-id="{{transactionId}}">Proceed to Payment</button>
+
+            <!-- Khu vực đếm ngược -->
+            <div id="countdown-timer" class="mt-3" style="display: none;">
+                <h4>Time remaining: <span id="time-left">05:00</span></h4>
+            </div>
+
+            <!-- Thông báo -->
+            <div id="payment-status" class="mt-3" style="display: none;"></div>
+        </div>
+    </div>
+</div>
+
+
+{{!-- <script src="/js/cart/cart.js" defer></script> --}}
+
+   
+
+    <script>
+    document.getElementById('btn-pay').addEventListener('click', async () => {
+      //  const transactionId = '{{transactionId}}'; // Truyền transactionId từ backend
+       const transactionId = event.target.getAttribute('data-transaction-id');
+       console.log('idgd:',transactionId);
+        const countdownElement = document.getElementById('countdown-timer');
+        const statusElement = document.getElementById('payment-status');
+        const qrCodeImg = document.getElementById('qr-code-img');
+
+        // Ẩn nút và hiển thị mã QR to hơn
+        document.getElementById('btn-pay').style.display = 'none';
+        qrCodeImg.style.maxWidth = '500px';
+        countdownElement.style.display = 'block';
+
+        // Thiết lập thời gian đếm ngược
+        let timeLeft = 2 * 60; // 5 phút
+        const timer = setInterval(() => {
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                statusElement.innerHTML = "<span class='text-danger'>Transaction failed. Please try again!</span>";
+                statusElement.style.display = 'block';
+                return;
+            }
+            timeLeft--;
+
+            // Hiển thị thời gian còn lại
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('time-left').textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }, 1000);
+
+        // Gửi yêu cầu POST để bắt đầu thanh toán
+        try {
+            console.log('lỗi gì nè ba ơi\n\nloofn')
+            const response = await fetch('/transaction/processPayment', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ transactionId }),
+            });
+            const result = await response.json();
+            console.log('mess: ',result.message);
+if (result.message === 'Transaction completed successfully') {
+            if (result.transaction.status === 'completed') {
+                clearInterval(timer);
+                statusElement.innerHTML = "<span class='text-success'>Payment successful! Redirecting...</span>";
+                statusElement.style.display = 'block';
+
+                // Chuyển hướng sau 2 giây
+                setTimeout(() => {
+                    window.location.href = '/order/list';
+                }, 2000);
+            }
+}
+        } catch (error) {
+            clearInterval(timer);
+            statusElement.innerHTML = "<span class='text-danger'>An error occurred during payment. Please try again!</span>";
+            statusElement.style.display = 'block';
+        }
+    });
+</script>
+
+  
+
+
+
+ </body>
+  

@@ -1,0 +1,156 @@
+{{!-- filepath: /d:/phuc/Web/Project/Dimillav-admin/src/components/account/views/view-accounts.hbs --}}
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4 mb-4">
+        <div class="col-lg-4">
+            <div class="bg-secondary rounded mb-4">
+                <div class="card-body text-center">
+                    <img src="{{account.avatar}}" alt="avatar"
+                    class="rounded-circle img-fluid avatar-img" style="width: 150px;">
+                    <h5 class="my-3">{{account.name}}</h5>
+                    <p class="text-muted mb-1">{{account.role}}</p>
+                    <p class="text-muted mb-4">{{account.address}}</p>
+                  
+
+                    <div class="d-flex justify-content-center mb-2">
+                    {{#if (eq account.status 'active')}}
+                        <button type="button" class="btn btn-outline-primary ms-1 btn-danger ban-button" data-mdb-button-init data-mdb-ripple-init data-bs-toggle="modal" data-token="{{account.token}}" data-name="{{account.username}}" data-bs-target="#ban-account-modal">Khóa</button>
+                    {{else}}
+                        <button type="button" class="btn btn-sm btn-success unban-button" data-bs-toggle="modal" data-token="{{account.token}}"  data-name="{{account.username}}" data-bs-target="#unban-account-modal">Mở khóa</button>
+                    {{/if}}
+                    <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-primary ms-1">Message</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="bg-secondary rounded mb-4">
+            <div class="card-body">
+                <div class="row">
+                <div class="col-sm-3">
+                    <p class="mb-0">Full Name</p>
+                </div>
+                <div class="col-sm-9">
+                    <p class="text-muted mb-0">{{account.name}}</p>
+                </div>
+                </div>
+                <hr>
+                <div class="row">
+                <div class="col-sm-3">
+                    <p class="mb-0">Email</p>
+                </div>
+                <div class="col-sm-9">
+                    <p class="text-muted mb-0">{{account.email}}</p>
+                </div>
+                </div>
+                <hr>
+                <div class="row">
+                <div class="col-sm-3">
+                    <p class="mb-0">User name</p>
+                </div>
+                <div class="col-sm-9">
+                    <p class="text-muted mb-0">{{account.username}}</p>
+                </div>
+                </div>
+                <hr>
+                <div class="row">
+                <div class="col-sm-3">
+                    <p class="mb-0">Birthday</p>
+                </div>
+                <div class="col-sm-9">
+                    <p class="text-muted mb-0">{{account.birthday}}</p>
+                </div>
+                </div>
+                <hr>
+                <div class="row">
+                <div class="col-sm-3">
+                    <p class="mb-0">Address</p>
+                </div>
+                <div class="col-sm-9">
+                    <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        
+    </div>
+    {{#if (eq account.role "customer")}}
+    <div class="bg-secondary text-center rounded p-4">
+        <p class="mb-4">Danh sách đơn hàng</p>
+        <div class="order_table">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Mã đơn hàng</th>
+                        <th>Ngày đặt</th>
+                        <th>Tổng tiền</th>
+                        <th>Trạng thái</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+            <tbody>
+                        {{#each orders}}
+                        <tr>
+                            <td>{{this._id}}</td>
+                            <td>{{this.createdAt}}</td>
+                            <td>${{this.totalAmount}}</td>
+                            <td>{{this.status}}</td>
+                            <td>
+                                {{#if (eq this.status "pending")}}
+                                <form action="/transaction/create/" method="POST">
+                                    <input type="hidden" name="orderId" value="{{this._id}}">
+                                    <button type="submit" class="btn btn-primary">Thanh toán</button>
+                                </form>
+                                {{else}}
+                                <span>Đã thanh toán</span>
+                                {{/if}}
+                            </td>
+                            <td>
+                                <a href="/order/detail/{{this._id}}" class="btn btn-info">Xem chi tiết</a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+
+            </table>
+        </div>
+    </div>
+    {{/if}}
+</div>
+<!-- Modal -->
+<div class="modal fade" id="ban-account-modal" tabindex="-1" aria-labelledby="ban-account-modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 ">Khóa tài khoản?</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Bạn có chắc chắn muốn khóa tài khoản này không?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" id="btn-ban-account" class="btn btn-danger">Khóa tài khoản</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="unban-account-modal" tabindex="-1" aria-labelledby="unban-account-modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Mở khóa tài khoản?</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Bạn có chắc chắn muốn mở khóa tài khoản này không?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" id="btn-unban-account" class="btn btn-success" >Mở khóa tài khoản</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/view-accounts.js"></script>

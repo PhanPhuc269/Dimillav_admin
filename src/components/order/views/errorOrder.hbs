@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lỗi</title>
+</head>
+<body>
+     <div class="container container-error">
+     <section class="banner-area organic-breadcrumb">
+        <div class="container">
+            <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+                <div class="col-first">
+                    <h1>Chi tiết đơn hàng</h1>
+                    <nav class="d-flex align-items-center">
+                        <a href="/home">Trang chủ<span class="lnr lnr-arrow-right"></span></a>
+                        <a href="/order/list">Danh sách đơn hàng<span class="lnr lnr-arrow-right"></span></a>
+                        <a href="/order/detail/{{order._id}}">Chi tiết</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="container">
+        <h1>Đã xảy ra lỗi</h1>
+        <p><strong>Mã lỗi:</strong> {{errorCode}}</p>
+        <p><strong>Thông báo:</strong> {{message}}</p>
+        {{#if errorDetails}}
+        <p><strong>Chi tiết:</strong> {{errorDetails}}</p>
+        {{/if}}
+        <a href="/order/checkout">Quay lại trang checkout</a>
+    </div>
+    </div>
+</body>
+</html>

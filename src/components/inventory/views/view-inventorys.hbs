@@ -1,0 +1,159 @@
+{{!-- filepath: /d:/phuc/Web/Project/Dimillav-admin/src/components/inventory/views/view-inventory.hbs --}}
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-secondary text-center rounded p-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h4 class="mb-0">Inventory Management</h4>
+            <div class="d-flex">
+                <select class="form-control-sm form-select w-50 select-category ms-5" aria-label="Default select example" name="category">
+                    <option value="">Danh mục</option>
+                    <option value="Shoes">Giày</option>
+                    <option value="Clothing">Quần áo</option>
+                </select>
+                <input type="text" id="search-query" class="form-control bg-dark border-0 me-2" placeholder="Search by product name">
+                <button id="search-button" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+        <div class="table-responsive">
+            {{!-- <div class="d-flex align-items-center mb-2">
+                <select class="form-control-sm form-select w-25 select-all-options me-2" aria-label="Default select example" name="action" required>
+                    <option value="">------Hành động------</option>
+                    <option value="delete">Xóa</option>
+                    <option value="restock">Nhập hàng</option>
+                </select>
+                <button class="btn btn-primary btn-sm disabled check-all-submit-btn">Thực hiện</button>
+            </div> --}}
+            <table class="table text-start align-middle table-bordered table-hover mb-0">
+                <thead>
+                    <tr class="text-black">
+                        <th scope="col">{{sortable 'name' _sort}} Tên sản phẩm</th>
+                        <th scope="col">Danh mục</th>
+                        <th scope="col">Thương hiệu</th>
+                        <th scope="col">Màu sắc</th>
+                        <th scope="col">Size</th>
+                        <th scope="col">Số lượng</th>
+                        <th scope="col">SKU</th>
+                        <th scope="col">{{sortable 'salePrice' _sort}} Giá</th>
+                        <th scope="col">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody id="inventory-table-body">
+                    {{#each inventory}}
+                    {{#each stock}}
+                    <tr>
+                        <td>{{../name}}</td>
+                        <td>{{../category}}</td>
+                        <td>{{../brand}}</td>
+                        <td>{{this.color}}</td>
+                        <td>{{this.size}}</td>
+                        <td>{{this.quantity}}</td>
+                        <td>{{../slug}}-{{this.color}}-{{this.size}}</td>
+                        <td>{{formatPrice ../salePrice}}</td>
+                        <td>
+                            <button class="btn btn-sm btn-success restock-button" data-id="{{../_id}}" data-name="{{../name}}" data-category="{{../category}}" data-brand="{{../brand}}" data-size="{{this.size}}" data-color="{{this.color}}" data-quantity="{{this.quantity}}" data-bs-toggle="modal" data-bs-target="#restock-modal">Nhập hàng</button>
+                            <button 
+                                class="btn btn-sm btn-danger delete-button" 
+                                data-id="{{../_id}}"     
+                                data-index="{{@index}}" 
+                                data-name="{{../name}}" 
+                                data-color="{{this.color}}" 
+                                data-size="{{this.size}}" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#confirm-delete-modal"
+                            >
+                                Xóa
+                            </button>
+                        </td>
+                    </tr>
+                    {{/each}}
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+        <div class="d-flex justify-content-between mt-3">
+            <button id="prev-page" class="btn btn-secondary">Previous</button>
+            <span class="pagination-info" id="page-info" data-total-pages="{{totalPages}}">Page {{page}} of {{totalPages}}</span>
+            <button id="next-page" class="btn btn-secondary">Next</button>
+        </div>
+    </div>
+</div>
+<!-- Modal Restock -->
+<div class="modal fade" id="restock-modal" tabindex="-1" aria-labelledby="restock-modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Nhập hàng</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="restock-form">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="restock-name" class="form-label">Tên sản phẩm</label>
+                            <input type="text" id="restock-name" class="form-control" readonly>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="restock-category" class="form-label">Danh mục</label>
+                            <input type="text" id="restock-category" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="restock-brand" class="form-label">Thương hiệu</label>
+                            <input type="text" id="restock-brand" class="form-control" readonly>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="restock-color" class="form-label">Màu sắc</label>
+                            <input type="text" id="restock-color" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="restock-size" class="form-label">Size</label>
+                            <input type="text" id="restock-size" class="form-control" readonly>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="restock-quantity-current" class="form-label">Số lượng hiện tại</label>
+                            <input type="text" id="restock-quantity-current" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="restock-quantity" class="form-label">Số lượng nhập thêm</label>
+                        <input type="number" id="restock-quantity" class="form-control" min="0">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" id="btn-restock" class="btn btn-primary">Nhập hàng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Confirm Delete -->
+<div class="modal fade" id="confirm-delete-modal" tabindex="-1" aria-labelledby="confirm-delete-modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Xác nhận xóa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn có chắc chắn muốn xóa mẫu hàng này không?</p>
+                <ul>
+                    <li><strong>Tên sản phẩm:</strong> <span id="delete-product-name"></span></li>
+                    <li><strong>Màu sắc:</strong> <span id="delete-product-color"></span></li>
+                    <li><strong>Size:</strong> <span id="delete-product-size"></span></li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" id="btn-confirm-delete" class="btn btn-danger">Xóa</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/js/view-inventory.js"></script>

@@ -1,0 +1,36 @@
+
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-secondary text-center rounded p-4">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <h1>Thống kê doanh thu</h1>
+    <div class="chart-container">
+        <h2>Doanh thu theo tháng và ngày</h2>
+        <form id="yearMonthForm">
+            <label for="year">Chọn năm:</label>
+            <select id="year" name="year">
+                {{#each years}}
+                <option value="{{this}}" {{#ifEquals this ../year}}selected{{/ifEquals}}>{{this}}</option>
+                {{/each}}
+            </select>
+            <label for="month">Chọn tháng:</label>
+            <select id="month" name="month">
+                {{#each months}}
+                <option value="{{this}}" {{#ifEquals this ../month}}selected{{/ifEquals}}>{{this}}</option>
+                {{/each}}
+            </select>
+        </form>
+        <!-- Biểu đồ doanh thu theo tháng -->
+        <canvas id="monthlyRevenueChart"></canvas>
+        <!-- Biểu đồ doanh thu theo ngày -->
+        <canvas id="dailyRevenueChart"></canvas>
+
+        <!-- Biểu đồ doanh thu theo tuần -->
+       <canvas id="weeklyRevenueChart"></canvas>
+
+    </div>
+    </div>
+</div>
+   <script src="/js/chartReport/chartRevenue.js"></script>
+
+
+

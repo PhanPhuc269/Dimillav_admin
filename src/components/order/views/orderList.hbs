@@ -1,0 +1,56 @@
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-secondary rounded p-4">
+    <!--================ Order List Area =================-->
+    <section class="order_list_area">
+        <div class="container">
+            <h2 class="mb-4 text-center text-primary">Danh sách đơn hàng</h2>
+            <div class="shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">Danh sách</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped text-center">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Order Date</th>
+                                    <th>Total Amount</th>
+                                    <th>Status</th>
+                                 
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each orders}}
+                                <tr>
+                                    <td>{{this._id}}</td>
+                                    <td>{{formatDate this.createdAt}}</td>
+                                    <td>VND {{formatCurrency this.totalAmount}}</td>
+                                    <td>
+                                        {{#if (eq this.status "pending")}}
+                                        <span class="badge bg-warning text-dark">Pending</span>
+                                        {{else if (eq this.status "paid")}}
+                                        <span class="badge bg-success">Paid</span>
+                                        {{else}}
+                                        <span class="badge bg-danger">Failed</span>
+                                        {{/if}}
+                                    </td>
+                                   
+                                    <td>
+                                        <a href="/order/detail/{{this._id}}" class="btn btn-info btn-sm">
+                                            <i class="fas fa-info-circle"></i> Xem chi tiết
+                                        </a>
+                                    </td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================ End Order List Area =================-->
+    </div>
+</div>

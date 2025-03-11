@@ -1,0 +1,42 @@
+<!-- Sign In Start -->
+<div class="container-fluid">
+    <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
+        <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
+            <div class="bg-secondary rounded p-4 p-sm-5 my-4 mx-3">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <a href="/" class="">
+                        <h3 class="text-primary"><i class="fa fa-user-edit me-2"></i>Dimillav</h3>
+                    </a>
+                    <h3>Instruction</h3>
+                </div>
+
+                    <div class="text-left">
+                        <h2 class="text-center mb-4">Xác nhận Email</h2>
+                        <h5>Thông Báo:</h5>
+                        <div  id="message" class="alert">
+                            Vui lòng kiểm tra email của bạn và nhấn vào nút xác nhận trong email để hoàn tất thiết lập xác thực 2 yếu tố.
+                        </div>     
+                         <div  id="message" class="alert">
+                            Nếu bạn đã xác nhận, vui lóng bấm nút bên dưới.
+                        </div>            
+                        <a href="/" class="btn btn-primary py-3 w-100 mb-4">Dashboard</a>
+                        <p class="m-3 text-left">If you didn't receive the email, you can request a new one below:</p>
+						<form class="row resend_email_form" id="resend_email_form" action="/auth/resend-confirmation" method="post">
+							<div class="col-md-12 form-group">
+								<input type="hidden" name="email" id="email" value="{{email}}">
+								<button type="submit" value="submit" class="btn btn-primary py-3 w-100 mb-4">Resend Confirmation Email</button>
+							</div>
+						</form>
+                        <p class="text-center mb-0">Don't have an Account? <a href="/auth/registration">Sign Up</a></p>
+                        <p class="text-center mb-0">Do you want to log in with another account? <a href="/auth/login">Log in</a></p>
+                        
+
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+	<script src="/js/confirm.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

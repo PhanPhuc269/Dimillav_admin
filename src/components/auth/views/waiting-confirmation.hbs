@@ -1,0 +1,50 @@
+
+	<!-- Start Banner Area -->
+	<section class="banner-area organic-breadcrumb">
+		<div class="container">
+			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+				
+			</div>
+		</div>
+	</section>
+	<!-- End Banner Area -->
+
+	<!--================Verify Box Area =================-->
+	<section class="login_box_area section_gap">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="login_box_img">
+						<img class="img-fluid" src="img/login.jpg" alt="">
+						<div class="hover">
+							<h4>Welcome to our shoe store!</h4>
+							<p>We're excited to have you here. Explore our latest collection and find the perfect pair that suits your style and comfort. Enjoy your shopping experience!</p>
+							<a class="primary-btn" href="/registration">Create an Account</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="login_form_inner ">
+						<h3>Verify Your Email</h3>
+						<p class="m-3 text-left">
+							Thank you for registering, <strong>{{username}}</strong>.<br/> We have sent an email to 
+							<strong>{{email}}</strong> with a confirmation link. Please check your inbox (and spam folder) 
+							to confirm your account.
+						</p>
+						<p class="m-3 text-left">If you didn't receive the email, you can request a new one below:</p>
+						<form class="row resend_email_form" id="resend_email_form" action="/resend-confirmation" method="post">
+							<div class="col-md-12 form-group">
+								<input type="hidden" name="email" id="email" value="{{email}}">
+								<button type="submit" value="submit" class="primary-btn">Resend Confirmation Email</button>
+							</div>
+						</form>
+						<p class="info m-3 text-left">
+							Once your account is verified, <strong>you will be redirected to the home page</strong>.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<script src="/js/confirm.js"></script>
+	<!--================End Verify Box Area =================-->
