@@ -2,19 +2,19 @@ const { createClient } = require('redis');
 
 const redisPubClient = createClient({
     username: 'default',
-    password: 'NBbQXNFY8NU7uX8NCUpoMagALBm8t58g',
+    password: 'QoDA8sx6LE4r9VnmuegYYGnZ2TVCOkR9',
     socket: {
-        host: 'redis-19991.c292.ap-southeast-1-1.ec2.redns.redis-cloud.com',
-        port: 19991
+        host: 'redis-13044.crce178.ap-east-1-1.ec2.redns.redis-cloud.com',
+        port: 13044
     }
 });
 
 const redisSubClient = createClient({
     username: 'default',
-    password: 'NBbQXNFY8NU7uX8NCUpoMagALBm8t58g',
+    password: 'QoDA8sx6LE4r9VnmuegYYGnZ2TVCOkR9',
     socket: {
-        host: 'redis-19991.c292.ap-southeast-1-1.ec2.redns.redis-cloud.com',
-        port: 19991
+        host: 'redis-13044.crce178.ap-east-1-1.ec2.redns.redis-cloud.com',
+        port: 13044
     }
 });
 

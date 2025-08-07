@@ -18,9 +18,9 @@ async function init(server, sessionStore) {
     //     // port: process.env.REDIS_PORT,
     //     // auth_pass: process.env.REDIS_PASSWORD,
     //     // requestsTimeout: 10000 // Tăng thời gian chờ lên 10 giây
-    //     host: 'redis-19991.c292.ap-southeast-1-1.ec2.redns.redis-cloud.com',
-    //     port: 19991,
-    //     auth_pass: 'NBbQXNFY8NU7uX8NCUpoMagALBm8t58g',
+    //     host: 'redis-13044.crce178.ap-east-1-1.ec2.redns.redis-cloud.com',
+    //     port: 13044,
+    //     auth_pass: 'QoDA8sx6LE4r9VnmuegYYGnZ2TVCOkR9',
     //     requestsTimeout: 30000,  // Tăng thời gian chờ lên 10 giây
     //     username: 'default',
     //     logErrors: true// Log lỗi từ Redis
@@ -28,10 +28,10 @@ async function init(server, sessionStore) {
     const { createClient } = require('redis');
     const redisPubClient = createClient({
         username: 'default',
-        password: 'NBbQXNFY8NU7uX8NCUpoMagALBm8t58g',
+        password: 'QoDA8sx6LE4r9VnmuegYYGnZ2TVCOkR9',
         socket: {
-            host: 'redis-19991.c292.ap-southeast-1-1.ec2.redns.redis-cloud.com',
-            port: 19991
+            host: 'redis-13044.crce178.ap-east-1-1.ec2.redns.redis-cloud.com',
+            port: 13044
         }
     });
     const redisSubClient = redisPubClient.duplicate();

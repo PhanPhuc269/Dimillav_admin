@@ -17,7 +17,7 @@ class AuthController{
                 if (err) {
                     return next(err);
                 }
-                UserService.sendConfirmationEmailWithSendGrid(user);
+                UserService.sendConfirmationEmail(user);
                 return res.status(201).json('Login is successful'); // Redirect về trang chủ sau khi xác thực
             });
         } catch (error) {
@@ -62,7 +62,7 @@ class AuthController{
             if (!user) {
                 return res.status(404).json({ message: 'User not found' });
             }
-            await UserService.sendVerificationCodeWithSendGrid(req, user);
+            await UserService.sendVerificationCode(req, user);
             res.json({ message: 'Verification code sent to your email' });
         } catch (error) {
             next(error);
@@ -101,7 +101,7 @@ class AuthController{
     // [GET] /verify
     async waitingForConfirmation(req, res, next) {
         const user = mongooseToObject(await UserService.findUserByUserId(req.user._id));
-        UserService.sendConfirmationEmailWithSendGrid(user);
+        UserService.sendConfirmationEmail(user);
         res.render('waiting-confirmation', {
             username: user.username,
             email: user.email,
@@ -130,7 +130,7 @@ class AuthController{
         }
 
         // Gửi lại email xác nhận
-        await UserService.sendConfirmationEmailWithSendGrid(user);
+        await UserService.sendConfirmationEmail(user);
 
         res.render('notify', { layout: 'content-only', email: user.email });
     }
@@ -158,7 +158,7 @@ class AuthController{
                     return next(err);
                 }
                 if (!user.isConfirmed) {
-                    UserService.sendConfirmationEmailWithSendGrid(user);
+                    UserService.sendConfirmationEmail(user);
                     return res.status(401).json({ message: 'Unauthorized: Invalid token or authentication failed. Please check your email' });
                 }
                 return res.status(200).json('Login is successful'); // Redirect về trang chủ sau khi xác thực
